@@ -1,0 +1,69 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+    <center>
+       <h1> Venue... </h1> <br/>
+
+        <table class="table table-striped table-hover table-boredered">
+            {% for venue in venues %}
+                <tr>
+                    <td>
+                        <a href = "{% url 'show-venue' venue.id %}"> 
+                           {{venue}}
+                       </a>
+                   </td>
+
+                   {% if user.is_authenticated %}
+
+                   <td align="right">
+                        <a href = "{% url 'update-venue' venue.id %}" class="btn btn-outline-secondary btn-sm"> 
+                            Update 
+                        </a>
+
+                        <a href = "{% url 'delete-venue' venue.id %}" class="btn btn-outline-danger btn-sm"> 
+                            Delete 
+                        </a>
+
+                    </td>
+                    {% endif %}
+               </tr>
+            {% endfor %}   
+       </table>
+
+       <br/><br/>
+       {% comment %} {{ venues }} <br/>
+       Has Previous: {{ venues.has_next}}<br/>
+       current page : {{ venues.number}} <br/>
+       Number of pages : {{ veues.paginator.num_pages}} <br/> {% endcomment %}
+       <hr> <br/><br/>
+
+        <nav aril-label = "Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if venues.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
+                    
+                    <li class="page-item"><a class="page-link" href="?page={{ venues.previous_page_number }}"> Previous </a></li>
+
+                {% endif %}
+
+                {% for i in nums %}
+
+                    <li class="page-item"><a class="page-link" href="?page={{ forloop.counter }}">{{ forloop.counter}}</a></li>
+
+                {% endfor %}
+
+                {% if venues.has_next %}
+
+                    <li class="page-item"><a class="page-link" href="?page={{ venues.next_page_number }}"> Next </a> </li>
+
+                    <li class="page-item"> <a class="page-link" href="?page={{ venues.paginator.num_pages }}"> Last &raquo </a></li>
+                {% endif %}
+                       
+            </ul>
+        </nav>
+
+          
+       
+       
+    </center>
+{% endblock %}
